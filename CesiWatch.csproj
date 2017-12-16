@@ -86,8 +86,8 @@
     <Compile Include="Models\WatchModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\WatchToJsonService.cs" />
     <Compile Include="Controllers\WatchController.cs" />
+    <Compile Include="Services\JsonService.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">

@@ -4,19 +4,12 @@ using Newtonsoft.Json;
 
 namespace CesiWatch
 {
-	public class WatchToJsonService
+	public class JsonService
 	{
-		public WatchToJsonService()
-		{
-			
-		}
-
 		public String Serialize(WatchModel watchModel)
 		{
-			watchModel.Address = "222";
-
 			var json = JsonConvert.SerializeObject(watchModel);
-			
+
 			Console.WriteLine("Json for this watch: {0}", json);
 
 			return json;
