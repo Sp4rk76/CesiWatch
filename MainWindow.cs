@@ -1,16 +1,25 @@
-﻿using System;
+﻿using CesiWatch;
 using Gtk;
 
-public partial class MainWindow: Gtk.Window
+public partial class MainWindow : Gtk.Window
 {
-	public MainWindow () : base (Gtk.WindowType.Toplevel)
+	private WatchController watchController_ = null;
+
+	public MainWindow() : base(Gtk.WindowType.Toplevel)
 	{
-		Build ();
+		Build();
+
+		Initialize();
 	}
 
-	protected void OnDeleteEvent (object sender, DeleteEventArgs a)
+	private void Initialize()
 	{
-		Application.Quit ();
+		watchController_ = new WatchController();
+	}
+
+	protected void OnDeleteEvent(object sender, DeleteEventArgs a)
+	{
+		Application.Quit();
 		a.RetVal = true;
 	}
 }
