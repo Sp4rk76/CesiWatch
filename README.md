@@ -1,2 +1,0 @@
-# CesiWatch
-CesiWatch for Airsoft

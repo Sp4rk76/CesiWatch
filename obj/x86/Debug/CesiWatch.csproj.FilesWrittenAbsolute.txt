@@ -1,0 +1,6 @@
+/home/pi/Documents/CesiWatch/obj/x86/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
+/home/pi/Documents/CesiWatch/obj/x86/Debug/CesiWatch.gtk-gui.gui.stetic
+/home/pi/Documents/CesiWatch/bin/Debug/CesiWatch.exe.mdb
+/home/pi/Documents/CesiWatch/bin/Debug/CesiWatch.exe
+/home/pi/Documents/CesiWatch/obj/x86/Debug/CesiWatch.exe
+/home/pi/Documents/CesiWatch/obj/x86/Debug/CesiWatch.exe.mdb
