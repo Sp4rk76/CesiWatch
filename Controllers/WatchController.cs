@@ -11,8 +11,14 @@ namespace CesiWatch
 
 		public WatchController()
 		{
+			Console.WriteLine("HHHHHHHH");
+
 			watchModel_ = new WatchModel("192.168.1.1", new Position(32,32), 1);
 			watchToJsonService = new WatchToJsonService();
+
+			watchToJsonService.Serialize(watchModel_);
+
+			// Start();
 		}
 
 		public void Start()

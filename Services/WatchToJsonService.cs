@@ -13,8 +13,10 @@ namespace CesiWatch
 
 		public String Serialize(WatchModel watchModel)
 		{
-			var json = JsonConvert.SerializeObject(watchModel);
+			watchModel.Address = "222";
 
+			var json = JsonConvert.SerializeObject(watchModel);
+			
 			Console.WriteLine("Json for this watch: {0}", json);
 
 			return json;
@@ -24,7 +26,7 @@ namespace CesiWatch
 		{
 			var watch = JsonConvert.DeserializeObject<WatchModel>(json);
 
-			Console.WriteLine("Address: {0}\nPosition: ({1};{2})\nTeamID: {3}", watch.getAddress(), watch.getPosition(), watch.getTeamId());
+			Console.WriteLine("Address: {0}\nPosition: ({1};{2})\nTeamID: {3}\nCounter: {4}", watch.Address, watch.Position.X, watch.Position.Y, watch.TeamId, watch.Counter);
 
 			return watch;
 		}

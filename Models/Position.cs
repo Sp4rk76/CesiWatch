@@ -2,13 +2,13 @@
 {
 	public class Position
 	{
-		int x_;
-		int y_;
+		public int X { get; set; }
+		public int Y { get; set; }
 
 		public Position(int x, int y)
 		{
-			this.x_ = y;
-			this.y_ = y;
+			X = x;
+			Y = y;
 		}
 	}
 }
