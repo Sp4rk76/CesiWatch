@@ -6,9 +6,15 @@ using System.Threading.Tasks;
 
 namespace CesiWatch.Models
 {
-    struct Position
-    {
-        int x;
-        int y;
-    }
+	public class Position
+	{
+		int x_;
+		int y_;
+
+		public Position(int x, int y)
+		{
+			this.x_ = y;
+			this.y_ = y;
+		}
+	}
 }
