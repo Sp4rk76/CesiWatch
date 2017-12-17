@@ -14,13 +14,14 @@
     <property name="WindowPosition">CenterOnParent</property>
     <property name="BorderWidth">17</property>
     <signal name="DeleteEvent" handler="OnDeleteEvent" />
+    <signal name="FrameEvent" handler="OnFrameEvent" />
     <child>
       <widget class="Gtk.VBox" id="vbox1">
         <property name="MemberName" />
         <property name="Spacing">6</property>
         <child>
-          <widget class="Gtk.DrawingArea" id="DrawingAreaMap">
-            <property name="MemberName">DrawingAreaMap</property>
+          <widget class="Gtk.DrawingArea" id="DrawingArea">
+            <property name="MemberName">DrawingArea</property>
             <property name="WidthRequest">280</property>
           </widget>
           <packing>
@@ -144,6 +145,7 @@
                                 <property name="Type">TextOnly</property>
                                 <property name="Label" translatable="yes">Validate</property>
                                 <property name="UseUnderline">True</property>
+                                <signal name="Released" handler="OnButtonValidateTeamIdReleased" />
                               </widget>
                               <packing>
                                 <property name="Position">0</property>
@@ -159,6 +161,7 @@
                                 <property name="Type">TextOnly</property>
                                 <property name="Label" translatable="yes">&lt;-</property>
                                 <property name="UseUnderline">True</property>
+                                <signal name="Released" handler="OnButtonBackTeamIdReleased" />
                               </widget>
                               <packing>
                                 <property name="Position">1</property>
@@ -214,6 +217,7 @@
                         <property name="Type">TextOnly</property>
                         <property name="Label" translatable="yes">Start</property>
                         <property name="UseUnderline">True</property>
+                        <signal name="Released" handler="OnButtonSaveReleased" />
                       </widget>
                       <packing>
                         <property name="Position">0</property>
@@ -241,6 +245,7 @@
                         <property name="Type">TextOnly</property>
                         <property name="Label" translatable="yes">Talk</property>
                         <property name="UseUnderline">True</property>
+                        <signal name="Released" handler="OnButtonTalkReleased" />
                       </widget>
                       <packing>
                         <property name="Position">0</property>
@@ -267,6 +272,7 @@
                         <property name="Type">TextOnly</property>
                         <property name="Label" translatable="yes">Dead</property>
                         <property name="UseUnderline">True</property>
+                        <signal name="Released" handler="OnButtonDeadReleased" />
                       </widget>
                       <packing>
                         <property name="Position">0</property>

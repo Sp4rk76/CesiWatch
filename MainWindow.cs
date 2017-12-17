@@ -1,16 +1,25 @@
 ﻿using CesiWatch;
 using Gtk;
-using Gdk;
 using System;
-using Pango;
+using System.Threading;
 
 public partial class MainWindow : Gtk.Window
 {
-	static int i = 0;
-
-	DrawingArea da;
-	
 	private WatchController watchController_ = null;
+
+	private DrawingAreaMapHelper helper_ = null;
+
+	private UIHandler UIHandler_ = null;
+
+	public DrawingArea DrawingAreaMap
+	{
+		get { return DrawingArea; }
+	}
+
+	public UIHandler UIHandler 
+	{ 
+		get { return UIHandler_; }
+	}
 
 	public MainWindow() : base(Gtk.WindowType.Toplevel)
 	{
@@ -21,44 +30,37 @@ public partial class MainWindow : Gtk.Window
 
 	private void Initialize()
 	{
-		da = new DrawingArea();
-
 		watchController_ = new WatchController();
+
+		helper_ = new DrawingAreaMapHelper(DrawingAreaMap);
+
+		UIHandler_ = new UIHandler(this);
 
 		watchController_.Start(); // start connection (Receive=asynchronous | Send=synchronous);
 
-		// this.ModifyBg(StateType.Normal, col);
-		// this.DrawingAreaMap.ModifyBg(StateType.Normal, col);
+		UIHandler_.Initialize();
 
+		DrawingAreaMap.ExposeEvent += (o, args) =>
+		{
+			UIHandler.DrawMapPoint((helper_.WindowWidth / 2) - 2, (helper_.WindowHeight / 2) - 2);
+		};
 
-
-
-		var gc = new Gdk.GC((Drawable)DrawingAreaMap.GdkWindow);
-		gc.RgbFgColor = new Gdk.Color(255, 0, 0);
-		var darkGray = new Gdk.Color(79, 79, 79);
-		this.ModifyBg(StateType.Normal, darkGray);
-		var gray = new Gdk.Color(100, 100, 100);
-		this.DrawingAreaMap.ModifyBg(StateType.Normal, gray);
-		DrawingAreaMap.GdkWindow.DrawRectangle(gc, true, 5 + (i * 50), 5 + (i * 50), 5, 5);
-
-		this.Add(this.da);
-
-		this.Show();
+		Add(DrawingAreaMap);
+		
+		Show();
 	}
 
-	protected void OnDeleteEvent(object sender, DeleteEventArgs a)
+	protected void OnDeleteEvent(object sender, DeleteEventArgs e)
 	{
 		watchController_.Stop();
 
 		Application.Quit();
 
-		a.RetVal = true;
+		e.RetVal = true;
 	}
 
 	protected void OnTextBoxPlayerChanged(object sender, System.EventArgs e)
 	{
-		i++;
-
 		var textBoxPlayerName = sender as Gtk.Entry;
 
 		TextBoxPlayerName.Text = textBoxPlayerName.Text;
@@ -68,6 +70,12 @@ public partial class MainWindow : Gtk.Window
 
 	protected void OnTextBoxPositionChanged(object sender, System.EventArgs e)
 	{
+		var textBoxPosition = sender as Gtk.Entry;
+
+		TextBoxPosition.Text = textBoxPosition.Text;
+
+		// TODO: Parse position to get 2 coordinates (X and Y) !
+		// watchController_.WatchModel.Position = 
 	}
 
 	protected void OnTextBoxDateTimeChanged(object sender, System.EventArgs e)
@@ -85,5 +93,25 @@ public partial class MainWindow : Gtk.Window
 	protected void OnButtonValidateTeamIdReleased(object sender, System.EventArgs e)
 	{
 		ButtonRangeTeamId.Sensitive = false;
+	}
+
+	protected void OnFrameEvent(object o, FrameEventArgs args)
+	{
+	}
+
+	protected void OnButtonSaveReleased(object sender, EventArgs e)
+	{
+	}
+
+	protected void OnButtonTalkReleased(object sender, EventArgs e)
+	{
+	}
+
+	protected void OnButtonDeadReleased(object sender, EventArgs e)
+	{
+	}
+
+	protected void OnButtonBackTeamIdReleased(object sender, EventArgs e)
+	{
 	}
 }

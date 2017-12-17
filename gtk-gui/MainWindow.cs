@@ -5,7 +5,7 @@ public partial class MainWindow
 {
 	private global::Gtk.VBox vbox1;
 
-	private global::Gtk.DrawingArea DrawingAreaMap;
+	private global::Gtk.DrawingArea DrawingArea;
 
 	private global::Gtk.HBox hbox2;
 
@@ -62,11 +62,11 @@ public partial class MainWindow
 		this.vbox1.Name = "vbox1";
 		this.vbox1.Spacing = 6;
 		// Container child vbox1.Gtk.Box+BoxChild
-		this.DrawingAreaMap = new global::Gtk.DrawingArea();
-		this.DrawingAreaMap.WidthRequest = 280;
-		this.DrawingAreaMap.Name = "DrawingAreaMap";
-		this.vbox1.Add(this.DrawingAreaMap);
-		global::Gtk.Box.BoxChild w1 = ((global::Gtk.Box.BoxChild)(this.vbox1[this.DrawingAreaMap]));
+		this.DrawingArea = new global::Gtk.DrawingArea();
+		this.DrawingArea.WidthRequest = 280;
+		this.DrawingArea.Name = "DrawingArea";
+		this.vbox1.Add(this.DrawingArea);
+		global::Gtk.Box.BoxChild w1 = ((global::Gtk.Box.BoxChild)(this.vbox1[this.DrawingArea]));
 		w1.Position = 0;
 		// Container child vbox1.Gtk.Box+BoxChild
 		this.hbox2 = new global::Gtk.HBox();
@@ -271,9 +271,15 @@ public partial class MainWindow
 		this.DefaultHeight = 541;
 		this.Show();
 		this.DeleteEvent += new global::Gtk.DeleteEventHandler(this.OnDeleteEvent);
+		this.FrameEvent += new global::Gtk.FrameEventHandler(this.OnFrameEvent);
 		this.TextBoxPlayerName.Changed += new global::System.EventHandler(this.OnTextBoxPlayerChanged);
 		this.TextBoxDateTime.Changed += new global::System.EventHandler(this.OnTextBoxDateTimeChanged);
 		this.TextBoxTimeLeft.Changed += new global::System.EventHandler(this.OnTextBoxTimeLeftChanged);
 		this.ButtonRangeTeamId.Changed += new global::System.EventHandler(this.OnButtonRangeTeamIdChanged);
+		this.ButtonValidateTeamId.Released += new global::System.EventHandler(this.OnButtonValidateTeamIdReleased);
+		this.ButtonBackTeamId.Released += new global::System.EventHandler(this.OnButtonBackTeamIdReleased);
+		this.ButtonSave.Released += new global::System.EventHandler(this.OnButtonSaveReleased);
+		this.ButtonTalk.Released += new global::System.EventHandler(this.OnButtonTalkReleased);
+		this.ButtonDead.Released += new global::System.EventHandler(this.OnButtonDeadReleased);
 	}
 }
