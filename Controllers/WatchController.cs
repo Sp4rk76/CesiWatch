@@ -5,18 +5,25 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using CesiWatch.Models;
+using Newtonsoft.Json;
 
 namespace CesiWatch
 {
 	public class WatchController
 	{
+		// TODO: Create a Timer to Send data periodically (1 second)
+
 		const int PORT_NUMBER = 15000;
 
 		const string BROADCAST_IP = "255.255.255.255";
 
+		const int SLEEP_TIME_MS = 1000;
+
 		Thread thread_ = null;
 
 		IAsyncResult asyncResult_ = null;
+
+		DateTime previousTime_ = DateTime.Now;
 
 		private readonly UdpClient udpClient_ = null;
 
@@ -66,6 +73,8 @@ namespace CesiWatch
 		public void StartListening()
 		{
 			asyncResult_ = udpClient_.BeginReceive(Receive, new object());
+
+			QuerySend();
 		}
 
 		public void Stop()
@@ -90,38 +99,27 @@ namespace CesiWatch
 			string json = Encoding.ASCII.GetString(bytes);
 
 			// TODO: tests on received data !
-			var watch = JsonService.Deserialize(json);
+			var watches = JsonService.Deserialize(json);
 
-			// TODO: do stuff with received data
-			var findWatch = watches_.Find(w => w.Address == watch.Address);
-			// If watch's address is not in the watch list
-			if (findWatch == null)
-			{
-				// Add watch to watch list
-				watches_.Add(watch);
-			}
-			else // existing watch was found
-			{
-				// If watch timespan (counter) is greater than the timespan from the watch list
-				if (watch.Counter > findWatch.Counter)
-				{
-					// Update data
-					var index = watches_.FindIndex(x => x.Address == watch.Address);
-					watches_[index] = watch;
-				}
-			}
-
-			// when something is Received, we Send our watch's data
-			// foreach (var watchData in watches_)
-			// {
-			//  Send(watchData);
-			// }
+			UpdateWatchList(watches);
 
 			// (Re)Start listening to Receive data again
 			StartListening();
 		}
 
-		public void Send(WatchModel watchModel)
+		public void QuerySend()
+		{
+			DateTime currentTime = DateTime.Now;
+
+			if ((currentTime - previousTime_).Milliseconds > SLEEP_TIME_MS)
+			{
+				Send();
+			}
+
+			previousTime_ = currentTime;
+		}
+
+		public void Send()
 		{
 			UpdateWatch();
 
@@ -129,13 +127,52 @@ namespace CesiWatch
 
 			IPEndPoint broadcastIp = new IPEndPoint(IPAddress.Broadcast, PORT_NUMBER); // Can send on broadcast
 
-			string json = JsonService.Serialize(watchModel);
+			// Yep, you can serialize a whole list !
+			string json = JsonService.Serialize(watches_);
 
 			byte[] buffer = Encoding.ASCII.GetBytes(json);
 
 			tmpClient.Send(buffer, buffer.Length, broadcastIp);
 
 			tmpClient.Close();
+
+			Thread.Sleep(SLEEP_TIME_MS);
 		}
+
+		public void UpdateWatchList(List<WatchModel> watches)
+		{
+			foreach (WatchModel watch in watches)
+			{
+				var findWatchTeam = watches_.Find(w => w.TeamId == watch.TeamId);
+				if (findWatchTeam == null) // Not in this team
+				{
+					continue;
+				}
+
+				var findWatch = watches_.Find(w => w.Address == watch.Address);
+
+				// If watch's address is not in the watch list
+				if (findWatch == null)
+				{
+					// Add watch to watch list
+					watches_.Add(watch);
+				}
+				else // existing watch was found
+				{
+					// If watch timespan (counter) is greater than the timespan from the watch list
+					if (watch.Counter > findWatch.Counter)
+					{
+						// Update data
+						var index = watches_.FindIndex(x => x.Address == watch.Address);
+						watches_[index] = watch;
+					}
+				}
+			}
+		}
+
+
+
+
+
 	}
 }
