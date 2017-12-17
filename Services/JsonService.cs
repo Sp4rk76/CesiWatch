@@ -5,9 +5,9 @@ using Newtonsoft.Json;
 
 namespace CesiWatch
 {
-	public static class JsonService
+	public class JsonService
 	{
-		public static string Serialize(List<WatchModel> watches)
+		public string Serialize(List<WatchModel> watches)
 		{
 			var json = JsonConvert.SerializeObject(watches, Formatting.Indented);
 
@@ -16,7 +16,7 @@ namespace CesiWatch
 			return json;
 		}
 
-		public static List<WatchModel> Deserialize(string json)
+		public List<WatchModel> Deserialize(string json)
 		{
 			var watches = JsonConvert.DeserializeObject<List<WatchModel>>(json);
 

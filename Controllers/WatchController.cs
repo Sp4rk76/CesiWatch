@@ -5,22 +5,23 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using CesiWatch.Models;
+using Newtonsoft.Json;
 
 namespace CesiWatch
 {
-    public class WatchController
+	public class WatchController
 	{
-        private bool isPlaying = false;
-
 		const int PORT_NUMBER = 15000;
 
 		const string BROADCAST_IP = "255.255.255.255";
 
 		const int SLEEP_TIME_MS = 1000;
 
+		private bool isPlaying = false;
+
 		Thread threadReceive_ = null;
 
-        Thread threadSend_ = null;
+		Thread threadSend_ = null;
 
 		IAsyncResult asyncResult_ = null;
 
@@ -30,13 +31,14 @@ namespace CesiWatch
 
 		private WatchModel watchModel_ = null;
 
-		private List<WatchModel> watches_ = null;
+		public List<WatchModel> watches_ { get; set; }
 
-		public WatchController()
+	public WatchController()
 		{
 			watches_ = new List<WatchModel>();
 
 			watchModel_ = new WatchModel("192.168.1.1", new Position(32, 32), 1);
+
             watches_.Add(watchModel_);
 
             udpClient_ = new UdpClient(PORT_NUMBER);
@@ -75,6 +77,7 @@ namespace CesiWatch
             isPlaying = true;
 
             threadSend_ = new Thread(new ThreadStart(QuerySend));
+
             threadSend_.Start();
 
 			PrepareReceive();
@@ -109,7 +112,7 @@ namespace CesiWatch
 			string json = Encoding.ASCII.GetString(bytes);
 
 			// TODO: tests on received data !
-			var watches = JsonService.Deserialize(json);
+			var watches = new JsonService().Deserialize(json);
 
 			UpdateWatchList(watches);
 
@@ -138,7 +141,7 @@ namespace CesiWatch
 			IPEndPoint broadcastIp = new IPEndPoint(IPAddress.Broadcast, PORT_NUMBER); // Can send on broadcast
 
 			// Yep, you can serialize a whole list !
-			string json = JsonService.Serialize(watches_);
+			string json = new JsonService().Serialize(watches_);
 
 			byte[] buffer = Encoding.ASCII.GetBytes(json);
 
