@@ -11,6 +11,8 @@ namespace CesiWatch
 {
 	public class WatchController
 	{
+        private bool isRunning = true;
+
 		// TODO: Create a Timer to Send data periodically (1 second)
 
 		const int PORT_NUMBER = 15000;
@@ -25,7 +27,7 @@ namespace CesiWatch
 
 		DateTime previousTime_ = DateTime.Now;
 
-		private readonly UdpClient udpClient_ = null;
+		private UdpClient udpClient_ = null;
 
 		private WatchModel watchModel_ = null;
 
@@ -33,7 +35,7 @@ namespace CesiWatch
 
 		public WatchController()
 		{
-			udpClient_ = new UdpClient(PORT_NUMBER);
+			//udpClient_ = new UdpClient(PORT_NUMBER);
 
 			watches_ = new List<WatchModel>();
 
@@ -66,22 +68,25 @@ namespace CesiWatch
 				throw new Exception("Already started, stop first");
 			}
 
-			Console.WriteLine("Started listening");
-			StartListening();
+            udpClient_ = new UdpClient(PORT_NUMBER);
+
+            (new Thread(new ThreadStart(QuerySend))).Start();
+
+            Console.WriteLine("Started listening");
+			PrepareReceive();
 		}
 
-		public void StartListening()
+		public void PrepareReceive()
 		{
-			asyncResult_ = udpClient_.BeginReceive(Receive, new object());
-
-			QuerySend();
-		}
+            asyncResult_ = udpClient_.BeginReceive(Receive, new object());
+        }
 
 		public void Stop()
 		{
 			try
 			{
-				udpClient_.Close();
+                isRunning = false;
+				//udpClient_.Close();
 				Console.WriteLine("Stopped listening");
 			}
 			catch (Exception e)
@@ -104,19 +109,26 @@ namespace CesiWatch
 			UpdateWatchList(watches);
 
 			// (Re)Start listening to Receive data again
-			StartListening();
+			PrepareReceive();
 		}
 
 		public void QuerySend()
 		{
-			DateTime currentTime = DateTime.Now;
+            do
+            {
+                DateTime currentTime = DateTime.Now;
 
-			if ((currentTime - previousTime_).Milliseconds > SLEEP_TIME_MS)
-			{
-				Send();
-			}
+                if ((currentTime - previousTime_).Milliseconds > SLEEP_TIME_MS)
+                {
+                    Send();
+                }
 
-			previousTime_ = currentTime;
+                previousTime_ = currentTime;
+
+                Thread.Sleep(1000);
+
+            } while (isRunning);
+			
 		}
 
 		public void Send()
