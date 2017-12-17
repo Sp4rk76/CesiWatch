@@ -5,15 +5,12 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using CesiWatch.Models;
-using Newtonsoft.Json;
 
 namespace CesiWatch
 {
-	public class WatchController
+    public class WatchController
 	{
-        private bool isRunning = true;
-
-		// TODO: Create a Timer to Send data periodically (1 second)
+        private bool isPlaying = false;
 
 		const int PORT_NUMBER = 15000;
 
@@ -21,7 +18,9 @@ namespace CesiWatch
 
 		const int SLEEP_TIME_MS = 1000;
 
-		Thread thread_ = null;
+		Thread threadReceive_ = null;
+
+        Thread threadSend_ = null;
 
 		IAsyncResult asyncResult_ = null;
 
@@ -35,15 +34,15 @@ namespace CesiWatch
 
 		public WatchController()
 		{
-			//udpClient_ = new UdpClient(PORT_NUMBER);
-
 			watches_ = new List<WatchModel>();
 
 			watchModel_ = new WatchModel("192.168.1.1", new Position(32, 32), 1);
+            watches_.Add(watchModel_);
 
-			watches_.Add(watchModel_);
-		}
+            udpClient_ = new UdpClient(PORT_NUMBER);
+        }
 
+        /** NICO's job here **/
 		public void UpdateWatch()
 		{
 			/* Géolocalisation calculation here ! */
@@ -63,20 +62,27 @@ namespace CesiWatch
 
 		public void Start()
 		{
-			if (thread_ != null)
+            if(isPlaying == true)
+            {
+                throw new Exception("Already playing, stop first");
+            }
+
+			if (threadReceive_ != null || threadSend_ != null)
 			{
 				throw new Exception("Already started, stop first");
 			}
 
-            udpClient_ = new UdpClient(PORT_NUMBER);
+            isPlaying = true;
 
-            (new Thread(new ThreadStart(QuerySend))).Start();
+            threadSend_ = new Thread(new ThreadStart(QuerySend));
+            threadSend_.Start();
+
+			PrepareReceive();
 
             Console.WriteLine("Started listening");
-			PrepareReceive();
-		}
+        }
 
-		public void PrepareReceive()
+        public void PrepareReceive()
 		{
             asyncResult_ = udpClient_.BeginReceive(Receive, new object());
         }
@@ -85,8 +91,7 @@ namespace CesiWatch
 		{
 			try
 			{
-                isRunning = false;
-				//udpClient_.Close();
+                isPlaying = false;
 				Console.WriteLine("Stopped listening");
 			}
 			catch (Exception e)
@@ -116,18 +121,11 @@ namespace CesiWatch
 		{
             do
             {
-                DateTime currentTime = DateTime.Now;
+                Send();
 
-                if ((currentTime - previousTime_).Milliseconds > SLEEP_TIME_MS)
-                {
-                    Send();
-                }
+                Thread.Sleep(SLEEP_TIME_MS);
 
-                previousTime_ = currentTime;
-
-                Thread.Sleep(1000);
-
-            } while (isRunning);
+            } while (isPlaying);
 			
 		}
 
@@ -147,8 +145,6 @@ namespace CesiWatch
 			tmpClient.Send(buffer, buffer.Length, broadcastIp);
 
 			tmpClient.Close();
-
-			Thread.Sleep(SLEEP_TIME_MS);
 		}
 
 		public void UpdateWatchList(List<WatchModel> watches)
