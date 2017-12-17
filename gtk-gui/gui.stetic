@@ -8,40 +8,20 @@
     <widget-library name="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <widget-library name="../bin/Debug/CesiWatch.exe" internal="true" />
   </import>
-  <widget class="Gtk.Window" id="MainWindow" design-size="339 500">
+  <widget class="Gtk.Window" id="MainWindow" design-size="387 541">
     <property name="MemberName" />
     <property name="Title" translatable="yes">CesiWatch 1.0</property>
     <property name="WindowPosition">CenterOnParent</property>
+    <property name="BorderWidth">17</property>
     <signal name="DeleteEvent" handler="OnDeleteEvent" />
     <child>
       <widget class="Gtk.VBox" id="vbox1">
         <property name="MemberName" />
         <property name="Spacing">6</property>
         <child>
-          <widget class="Gtk.Frame" id="frame2">
-            <property name="MemberName" />
-            <property name="ShadowType">None</property>
-            <child>
-              <widget class="Gtk.Alignment" id="GtkAlignment">
-                <property name="MemberName" />
-                <property name="Xalign">0</property>
-                <property name="Yalign">0</property>
-                <property name="LeftPadding">12</property>
-                <child>
-                  <placeholder />
-                </child>
-              </widget>
-            </child>
-            <child>
-              <widget class="Gtk.Label" id="GtkLabel4">
-                <property name="MemberName" />
-                <property name="LabelProp" translatable="yes">&lt;b&gt;GtkFrame&lt;/b&gt;</property>
-                <property name="UseMarkup">True</property>
-              </widget>
-              <packing>
-                <property name="type">label_item</property>
-              </packing>
-            </child>
+          <widget class="Gtk.DrawingArea" id="DrawingAreaMap">
+            <property name="MemberName">DrawingAreaMap</property>
+            <property name="WidthRequest">280</property>
           </widget>
           <packing>
             <property name="Position">0</property>
@@ -62,11 +42,12 @@
                     <property name="MemberName" />
                     <property name="Spacing">6</property>
                     <child>
-                      <widget class="Gtk.Entry" id="TextBoxPlayer">
-                        <property name="MemberName">TextBoxPlayer</property>
+                      <widget class="Gtk.Entry" id="TextBoxPlayerName">
+                        <property name="MemberName">TextBoxPlayerName</property>
                         <property name="CanFocus">True</property>
                         <property name="IsEditable">True</property>
                         <property name="InvisibleChar">●</property>
+                        <signal name="Changed" handler="OnTextBoxPlayerChanged" />
                       </widget>
                       <packing>
                         <property name="Position">0</property>
@@ -101,6 +82,7 @@
                         <property name="CanFocus">True</property>
                         <property name="IsEditable">True</property>
                         <property name="InvisibleChar">●</property>
+                        <signal name="Changed" handler="OnTextBoxDateTimeChanged" />
                       </widget>
                       <packing>
                         <property name="Position">0</property>
@@ -113,6 +95,7 @@
                         <property name="CanFocus">True</property>
                         <property name="IsEditable">True</property>
                         <property name="InvisibleChar">●</property>
+                        <signal name="Changed" handler="OnTextBoxTimeLeftChanged" />
                       </widget>
                       <packing>
                         <property name="Position">1</property>
@@ -142,6 +125,8 @@
                             <property name="StepIncrement">1</property>
                             <property name="ClimbRate">1</property>
                             <property name="Numeric">True</property>
+                            <property name="Value">1</property>
+                            <signal name="Changed" handler="OnButtonRangeTeamIdChanged" />
                           </widget>
                           <packing>
                             <property name="Position">0</property>
@@ -149,17 +134,45 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="Gtk.Button" id="ButtonValidateTeamId">
-                            <property name="MemberName">ButtonValidateTeamId</property>
-                            <property name="CanFocus">True</property>
-                            <property name="Type">TextOnly</property>
-                            <property name="Label" translatable="yes">Validate</property>
-                            <property name="UseUnderline">True</property>
-                            <property name="BorderWidth">3</property>
+                          <widget class="Gtk.HBox" id="hbox4">
+                            <property name="MemberName" />
+                            <property name="Spacing">6</property>
+                            <child>
+                              <widget class="Gtk.Button" id="ButtonValidateTeamId">
+                                <property name="MemberName">ButtonValidateTeamId</property>
+                                <property name="CanFocus">True</property>
+                                <property name="Type">TextOnly</property>
+                                <property name="Label" translatable="yes">Validate</property>
+                                <property name="UseUnderline">True</property>
+                              </widget>
+                              <packing>
+                                <property name="Position">0</property>
+                                <property name="AutoSize">False</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="Gtk.Button" id="ButtonBackTeamId">
+                                <property name="MemberName">ButtonBackTeamId</property>
+                                <property name="WidthRequest">25</property>
+                                <property name="HeightRequest">25</property>
+                                <property name="CanFocus">True</property>
+                                <property name="Type">TextOnly</property>
+                                <property name="Label" translatable="yes">&lt;-</property>
+                                <property name="UseUnderline">True</property>
+                              </widget>
+                              <packing>
+                                <property name="Position">1</property>
+                                <property name="AutoSize">True</property>
+                                <property name="Expand">False</property>
+                                <property name="Fill">False</property>
+                              </packing>
+                            </child>
                           </widget>
                           <packing>
                             <property name="Position">1</property>
-                            <property name="AutoSize">False</property>
+                            <property name="AutoSize">True</property>
+                            <property name="Expand">False</property>
+                            <property name="Fill">False</property>
                           </packing>
                         </child>
                       </widget>
@@ -180,7 +193,7 @@
               <packing>
                 <property name="Position">0</property>
                 <property name="AutoSize">False</property>
-                <property name="Padding">20</property>
+                <property name="Padding">17</property>
               </packing>
             </child>
             <child>
@@ -272,15 +285,14 @@
               <packing>
                 <property name="Position">1</property>
                 <property name="AutoSize">False</property>
-                <property name="Padding">15</property>
+                <property name="Padding">18</property>
               </packing>
             </child>
           </widget>
           <packing>
             <property name="Position">1</property>
-            <property name="AutoSize">True</property>
+            <property name="AutoSize">False</property>
             <property name="Expand">False</property>
-            <property name="Fill">False</property>
             <property name="Padding">5</property>
           </packing>
         </child>
