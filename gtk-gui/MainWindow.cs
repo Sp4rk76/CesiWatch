@@ -3,6 +3,34 @@
 
 public partial class MainWindow
 {
+	private global::Gtk.VBox vbox1;
+
+	private global::Gtk.HBox hbox2;
+
+	private global::Gtk.VBox vbox3;
+
+	private global::Gtk.VBox vbox4;
+
+	private global::Gtk.VBox vbox5;
+
+	private global::Gtk.VBox vbox6;
+
+	private global::Gtk.VBox vbox2;
+
+	private global::Gtk.VBox vbox7;
+
+	private global::Gtk.VBox vbox8;
+
+	private global::Gtk.VBox vbox9;
+
+	private global::Gtk.VBox vbox10;
+
+	private global::Gtk.VBox vbox11;
+
+	private global::Gtk.VBox vbox12;
+
+	private global::Gtk.VBox vbox13;
+
 	protected virtual void Build()
 	{
 		global::Stetic.Gui.Initialize(this);
@@ -10,12 +38,108 @@ public partial class MainWindow
 		this.Name = "MainWindow";
 		this.Title = global::Mono.Unix.Catalog.GetString("CesiWatch 1.0");
 		this.WindowPosition = ((global::Gtk.WindowPosition)(4));
+		// Container child MainWindow.Gtk.Container+ContainerChild
+		this.vbox1 = new global::Gtk.VBox();
+		this.vbox1.Name = "vbox1";
+		this.vbox1.Spacing = 6;
+		// Container child vbox1.Gtk.Box+BoxChild
+		this.hbox2 = new global::Gtk.HBox();
+		this.hbox2.Name = "hbox2";
+		this.hbox2.Spacing = 6;
+		// Container child hbox2.Gtk.Box+BoxChild
+		this.vbox3 = new global::Gtk.VBox();
+		this.vbox3.Name = "vbox3";
+		this.vbox3.Spacing = 6;
+		// Container child vbox3.Gtk.Box+BoxChild
+		this.vbox4 = new global::Gtk.VBox();
+		this.vbox4.Name = "vbox4";
+		this.vbox4.Spacing = 6;
+		this.vbox3.Add(this.vbox4);
+		global::Gtk.Box.BoxChild w1 = ((global::Gtk.Box.BoxChild)(this.vbox3[this.vbox4]));
+		w1.Position = 0;
+		// Container child vbox3.Gtk.Box+BoxChild
+		this.vbox5 = new global::Gtk.VBox();
+		this.vbox5.Name = "vbox5";
+		this.vbox5.Spacing = 6;
+		this.vbox3.Add(this.vbox5);
+		global::Gtk.Box.BoxChild w2 = ((global::Gtk.Box.BoxChild)(this.vbox3[this.vbox5]));
+		w2.Position = 1;
+		// Container child vbox3.Gtk.Box+BoxChild
+		this.vbox6 = new global::Gtk.VBox();
+		this.vbox6.Name = "vbox6";
+		this.vbox6.Spacing = 6;
+		this.vbox3.Add(this.vbox6);
+		global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.vbox3[this.vbox6]));
+		w3.Position = 2;
+		this.hbox2.Add(this.vbox3);
+		global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.hbox2[this.vbox3]));
+		w4.Position = 0;
+		// Container child hbox2.Gtk.Box+BoxChild
+		this.vbox2 = new global::Gtk.VBox();
+		this.vbox2.Name = "vbox2";
+		this.vbox2.Spacing = 6;
+		// Container child vbox2.Gtk.Box+BoxChild
+		this.vbox7 = new global::Gtk.VBox();
+		this.vbox7.Name = "vbox7";
+		this.vbox7.Spacing = 6;
+		this.vbox2.Add(this.vbox7);
+		global::Gtk.Box.BoxChild w5 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.vbox7]));
+		w5.Position = 0;
+		// Container child vbox2.Gtk.Box+BoxChild
+		this.vbox8 = new global::Gtk.VBox();
+		this.vbox8.Name = "vbox8";
+		this.vbox8.Spacing = 6;
+		this.vbox2.Add(this.vbox8);
+		global::Gtk.Box.BoxChild w6 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.vbox8]));
+		w6.Position = 1;
+		// Container child vbox2.Gtk.Box+BoxChild
+		this.vbox9 = new global::Gtk.VBox();
+		this.vbox9.Name = "vbox9";
+		this.vbox9.Spacing = 6;
+		this.vbox2.Add(this.vbox9);
+		global::Gtk.Box.BoxChild w7 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.vbox9]));
+		w7.Position = 2;
+		this.hbox2.Add(this.vbox2);
+		global::Gtk.Box.BoxChild w8 = ((global::Gtk.Box.BoxChild)(this.hbox2[this.vbox2]));
+		w8.Position = 1;
+		// Container child hbox2.Gtk.Box+BoxChild
+		this.vbox10 = new global::Gtk.VBox();
+		this.vbox10.Name = "vbox10";
+		this.vbox10.Spacing = 6;
+		// Container child vbox10.Gtk.Box+BoxChild
+		this.vbox11 = new global::Gtk.VBox();
+		this.vbox11.Name = "vbox11";
+		this.vbox11.Spacing = 6;
+		this.vbox10.Add(this.vbox11);
+		global::Gtk.Box.BoxChild w9 = ((global::Gtk.Box.BoxChild)(this.vbox10[this.vbox11]));
+		w9.Position = 0;
+		// Container child vbox10.Gtk.Box+BoxChild
+		this.vbox12 = new global::Gtk.VBox();
+		this.vbox12.Name = "vbox12";
+		this.vbox12.Spacing = 6;
+		this.vbox10.Add(this.vbox12);
+		global::Gtk.Box.BoxChild w10 = ((global::Gtk.Box.BoxChild)(this.vbox10[this.vbox12]));
+		w10.Position = 1;
+		// Container child vbox10.Gtk.Box+BoxChild
+		this.vbox13 = new global::Gtk.VBox();
+		this.vbox13.Name = "vbox13";
+		this.vbox13.Spacing = 6;
+		this.vbox10.Add(this.vbox13);
+		global::Gtk.Box.BoxChild w11 = ((global::Gtk.Box.BoxChild)(this.vbox10[this.vbox13]));
+		w11.Position = 2;
+		this.hbox2.Add(this.vbox10);
+		global::Gtk.Box.BoxChild w12 = ((global::Gtk.Box.BoxChild)(this.hbox2[this.vbox10]));
+		w12.Position = 2;
+		this.vbox1.Add(this.hbox2);
+		global::Gtk.Box.BoxChild w13 = ((global::Gtk.Box.BoxChild)(this.vbox1[this.hbox2]));
+		w13.Position = 1;
+		this.Add(this.vbox1);
 		if ((this.Child != null))
 		{
 			this.Child.ShowAll();
 		}
-		this.DefaultWidth = 400;
-		this.DefaultHeight = 300;
+		this.DefaultWidth = 301;
+		this.DefaultHeight = 500;
 		this.Show();
 		this.DeleteEvent += new global::Gtk.DeleteEventHandler(this.OnDeleteEvent);
 	}
