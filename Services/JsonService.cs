@@ -4,9 +4,9 @@ using Newtonsoft.Json;
 
 namespace CesiWatch
 {
-	public class JsonService
+	public static class JsonService
 	{
-		public String Serialize(WatchModel watchModel)
+		public static String Serialize(WatchModel watchModel)
 		{
 			var json = JsonConvert.SerializeObject(watchModel);
 
@@ -15,7 +15,7 @@ namespace CesiWatch
 			return json;
 		}
 
-		public WatchModel Deserialize(String json)
+		public static WatchModel Deserialize(String json)
 		{
 			var watch = JsonConvert.DeserializeObject<WatchModel>(json);
 
