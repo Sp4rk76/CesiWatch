@@ -14,11 +14,9 @@ namespace CesiWatch
 
 		private int windowHeight_ = 0;
 
-		public int WindowWidth { 
-			get
-			{
-				return windowWidth_;
-			}
+		public int WindowWidth 
+		{ 
+			get { return windowWidth_; }
 			set
 			{
 				if (value > 0)
@@ -34,10 +32,7 @@ namespace CesiWatch
 
 		public int WindowHeight
 		{
-			get
-			{
-				return windowHeight_;
-			}
+			get { return windowHeight_; }
 			set
 			{
 				if (value > 0)

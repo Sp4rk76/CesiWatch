@@ -10,12 +10,6 @@ namespace CesiWatch
 
 		private Gdk.GC graphicContextAreaMap_ = null; // AreaMap's Context
 
-		Color red_ = new Gdk.Color(255, 0, 0); // Point's Foreground Color
-
-		Color darkGray_ = new Gdk.Color(79, 79, 79); // MainWindow's Background Color
-
-		Color gray_ = new Gdk.Color(100, 100, 100); // AreaMap's Background Color
-
 		public Gdk.GC GraphicContextWindow
 		{
 			get { return graphicContextWindow_; }
@@ -53,21 +47,28 @@ namespace CesiWatch
 		public void LoadBackGrounds()
 		{
 			/* MainWindow's Background */
-			mainWindow_.ModifyBg(Gtk.StateType.Normal, darkGray_);
+			mainWindow_.ModifyBg(Gtk.StateType.Normal, ColorPicker.DarkGray);
 
 			/* DrawingAreaMap's Background */
-			mainWindow_.DrawingAreaMap.ModifyBg(Gtk.StateType.Normal, gray_);
+			mainWindow_.DrawingAreaMap.ModifyBg(Gtk.StateType.Normal, ColorPicker.Gray);
 		}
 
 		public void LoadForegrounds()
 		{
 			/* DrawingAreaMap's Foreground */
-			graphicContextAreaMap_.RgbFgColor = red_;
+			graphicContextAreaMap_.RgbFgColor = ColorPicker.Red;
 		}
 
-		public void DrawMapPoint(int x, int y, int w = 4, int h = 4)
+		public void DrawMapPoint(Color color, int x, int y, int w = 4, int h = 4)
 		{
-			mainWindow_.DrawingAreaMap.GdkWindow.DrawRectangle(GraphicContextAreaMap, true, x, y, w, h);
+			graphicContextAreaMap_.RgbFgColor = color;
+
+			mainWindow_.DrawingAreaMap.GdkWindow.DrawRectangle(graphicContextAreaMap_, true, x, y, w, h);
+		}
+
+		public void ClearDrawingArea()
+		{
+			mainWindow_.DrawingAreaMap.GdkWindow.Clear();
 		}
 	}
 }

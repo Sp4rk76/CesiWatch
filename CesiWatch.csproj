@@ -90,6 +90,7 @@
     <Compile Include="Services\JsonService.cs" />
     <Compile Include="UIHandler.cs" />
     <Compile Include="DrawingAreaMapHelper.cs" />
+    <Compile Include="Services\ColorPicker.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
