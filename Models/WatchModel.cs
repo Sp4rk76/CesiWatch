@@ -10,11 +10,25 @@ namespace CesiWatch.Models
 	[JsonObject(MemberSerialization.OptIn)]
 	public class WatchModel
 	{
+		private string playerName_;
 		private string address_;
 		private Position position_;
 		private int teamId_;
 		private int counter_;
 		private DateTime date_;
+
+		[JsonPropertyAttribute]
+		public string PlayerName
+		{
+			get
+			{
+				return playerName_;
+			}
+			set
+			{
+				playerName_ = value;
+			}
+		}
 
 		[JsonPropertyAttribute]
 		public string Address

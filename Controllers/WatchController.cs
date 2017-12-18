@@ -20,6 +20,8 @@ namespace CesiWatch
 
 		private bool isPlaying = false;
 
+		private MainWindow mainWindow_ = null;
+
 		Thread threadReceive_ = null;
 
 		Thread threadSend_ = null;
@@ -32,11 +34,17 @@ namespace CesiWatch
 
 		private WatchModel watchModel_ = null;
 
+		public WatchModel WatchModel
+		{
+			get { return watchModel_; }
+			set { watchModel_ = value; }
+		}
+
 		public List<WatchModel> watches_ { get; set; }
 
 		private String LocalIP = "unknown";
 
-		public WatchController()
+		public WatchController(MainWindow window)
 		{
 			udpClient_ = new UdpClient();
 
@@ -78,24 +86,37 @@ namespace CesiWatch
 			watches_.Add(watchModel_);
 		}
 
+		public Position GetGeolocalizedPosition()
+		{
+			string latitude = string.Empty;
+			string longitude = string.Empty;
+
+			// Get Latitude && Longitude data from GPS sensor
+
+			return LatLongToDecimal(latitude, longitude);
+		}
+
+		public Position LatLongToDecimal(string latitude, string longitude)
+		{
+			int x = 0, y = 0;
+
+			// Do conversion stuff here !
+
+			return new Position(x, y);
+		}
+
 		/** NICO's job here **/
 		public void UpdateWatch()
 		{
 			/* Géolocalisation calculation here ! */
-			// DoStuffAboutGeolocalisation();
-			// var newPosition = new Position(positionX, positionY);
-
-			/* Set new position */
-			// watchModel_.setPosition(newPosition);
+			watchModel_.Position = GetGeolocalizedPosition();
 
 			/* Update our Watch's data in the list */
-			watchModel_.Counter += 1; // Update "TimeStamp" to check for changes on remote watches !
 			watchModel_.Date = DateTime.Now;
 
-			var thisWatch = watches_.Find(w => w.Address == watchModel_.Address); // Find self watch in list
+			var watchIndex = watches_.FindIndex(w => w.Address == watchModel_.Address); // Find self watch in list
 
-			thisWatch.Counter = watchModel_.Counter; // Update self watch in the list
-
+			watches_[watchIndex].Date = watchModel_.Date; // Update self watch in the list
 		}
 
 		public void Start()

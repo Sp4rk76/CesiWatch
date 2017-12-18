@@ -47,11 +47,24 @@ public partial class MainWindow : Gtk.Window
 		TextBoxTimeLeft.Sensitive = false;
 	}
 
+	public void DownloadWatchData()
+	{
+		var watch = watchController_.WatchModel;
+
+		TextBoxPlayerName.Text = watch.PlayerName;
+		TextBoxPosition.Text = ("( " + watch.Position.X + " ; " + watch.Position.Y + " )");
+		TextBoxDateTime.Text = (watch.Date).ToString();
+		TextBoxTimeLeft.Text = "00:00:00";
+		ButtonRangeTeamId.Text = watch.TeamId.ToString(); 
+	}
+
 	private void Initialize()
 	{
 		LoadDefaultControls();
 
-		watchController_ = new WatchController();
+		watchController_ = new WatchController(this);
+
+		DownloadWatchData();
 
 		helper_ = new DrawingAreaMapHelper(DrawingAreaMap);
 
@@ -67,7 +80,10 @@ public partial class MainWindow : Gtk.Window
 		};
 
 		ButtonTalk.Clicked += (sender, e) =>
-		{
+		  {
+			ButtonTalk.ModifyBg(StateType.Normal, ColorPicker.Red);
+			
+
 			talking_ = !talking_;
 
 			if (talking_)
@@ -100,7 +116,7 @@ public partial class MainWindow : Gtk.Window
 
 		TextBoxPlayerName.Text = textBoxPlayerName.Text;
 
-		// watchController_.WatchModel.PlayerName = TextBoxPlayerName.Text;
+		watchController_.WatchModel.PlayerName = TextBoxPlayerName.Text;
 	}
 
 	protected void OnTextBoxPositionChanged(object sender, System.EventArgs e)
@@ -182,7 +198,7 @@ public partial class MainWindow : Gtk.Window
 	{
 		if (watchController_ == null)
 		{
-			watchController_ = new WatchController();
+			watchController_ = new WatchController(this);
 			Console.WriteLine("Error: Failed to start watch controller (null) !");
 			//validated_ = false;
 			started_ = false;
@@ -206,14 +222,14 @@ public partial class MainWindow : Gtk.Window
 
 	public void EnableTalk()
 	{
-		ButtonTalk.ModifyFg(Gtk.StateType.Normal, ColorPicker.Green);
+		ButtonTalk.ModifyBg(Gtk.StateType.Normal, ColorPicker.Green);
 
 		Console.WriteLine("Talk Enabled [ON]");
 	}
 
 	public void DisableTalk()
 	{
-		ButtonTalk.ModifyFg(Gtk.StateType.Normal, ColorPicker.Orange);
+		ButtonTalk.ModifyBg(Gtk.StateType.Normal, ColorPicker.Orange);
 
 		talking_ = false;
 
