@@ -14,6 +14,7 @@ namespace CesiWatch.Models
 		private Position position_;
 		private int teamId_;
 		private int counter_;
+		private DateTime date_;
 
 		[JsonPropertyAttribute]
 		public string Address
@@ -73,20 +74,36 @@ namespace CesiWatch.Models
 			}
 		}
 
+		[JsonPropertyAttribute]
+		public DateTime Date
+		{
+			get
+			{
+				return date_;
+			}
+			set
+			{
+				date_ = value;
+			}
+		}
+
 		public WatchModel()
 		{
 			this.address_ = string.Empty;
 			this.position_ = new Position(0, 0);
 			this.teamId_ = -1;
 			this.counter_ = 0;
+			this.date_ = DateTime.Now;
 		}
 
 		public WatchModel(string address, Position position, int teamId, int counter = 0)
 		{
+			Console.WriteLine("creating Watch object ...");
 			this.address_ = address;
 			this.position_ = position;
 			this.teamId_ = teamId;
 			this.counter_ = counter;
+			this.date_ = DateTime.Now;
 		}
 
 		public bool IsValid(int input)

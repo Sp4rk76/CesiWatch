@@ -11,7 +11,7 @@ namespace CesiWatch
 		{
 			var json = JsonConvert.SerializeObject(watches, Formatting.Indented);
 
-			Console.WriteLine("Json for this watch: {0}", json);
+			//Console.WriteLine("Json for this watch: {0}", json);
 
 			return json;
 		}
@@ -20,7 +20,12 @@ namespace CesiWatch
 		{
 			var watches = JsonConvert.DeserializeObject<List<WatchModel>>(json);
 
-			Console.WriteLine(watches);
+			foreach (WatchModel watch in watches)
+			{
+				Console.WriteLine(watch.Address + " : " + watch.Date);
+			}
+
+			//Console.WriteLine(watches);
 
 			return watches;
 		}
