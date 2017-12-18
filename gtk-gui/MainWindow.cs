@@ -271,7 +271,6 @@ public partial class MainWindow
 		this.DefaultHeight = 541;
 		this.Show();
 		this.DeleteEvent += new global::Gtk.DeleteEventHandler(this.OnDeleteEvent);
-		this.FrameEvent += new global::Gtk.FrameEventHandler(this.OnFrameEvent);
 		this.TextBoxPlayerName.Changed += new global::System.EventHandler(this.OnTextBoxPlayerChanged);
 		this.TextBoxDateTime.Changed += new global::System.EventHandler(this.OnTextBoxDateTimeChanged);
 		this.TextBoxTimeLeft.Changed += new global::System.EventHandler(this.OnTextBoxTimeLeftChanged);
@@ -279,7 +278,6 @@ public partial class MainWindow
 		this.ButtonValidateTeamId.Released += new global::System.EventHandler(this.OnButtonValidateTeamIdReleased);
 		this.ButtonBackTeamId.Released += new global::System.EventHandler(this.OnButtonBackTeamIdReleased);
 		this.ButtonSave.Released += new global::System.EventHandler(this.OnButtonSaveReleased);
-		this.ButtonTalk.Released += new global::System.EventHandler(this.OnButtonTalkReleased);
 		this.ButtonDead.Released += new global::System.EventHandler(this.OnButtonDeadReleased);
 	}
 }

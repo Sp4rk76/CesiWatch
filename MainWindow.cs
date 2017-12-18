@@ -66,6 +66,20 @@ public partial class MainWindow : Gtk.Window
 			UIHandler.DrawMapPoint(ColorPicker.Blue, (helper_.WindowWidth / 2) - 2, (helper_.WindowHeight / 2) - 2, 8, 8);
 		};
 
+		ButtonTalk.Clicked += (sender, e) =>
+		{
+			talking_ = !talking_;
+
+			if (talking_)
+			{
+				DisableTalk();
+			}
+			else
+			{
+				EnableTalk();
+			}
+		};
+
 		Add(DrawingAreaMap);
 
 		Show();
@@ -148,8 +162,6 @@ public partial class MainWindow : Gtk.Window
 
 	protected void OnButtonValidateTeamIdReleased(object sender, System.EventArgs e)
 	{
-
-
 		if (IsValid(TextBoxPlayerName.Text.ToString()) &&
 		    IsValid(int.Parse(ButtonRangeTeamId.Text.ToString())))
 		{
@@ -166,18 +178,13 @@ public partial class MainWindow : Gtk.Window
 		}
 	}
 
-	protected void OnFrameEvent(object o, FrameEventArgs args)
-	{ // NOTE: this does nothing !!
-	}
-
-
 	protected void OnButtonSaveReleased(object sender, EventArgs e)
 	{
 		if (watchController_ == null)
 		{
 			watchController_ = new WatchController();
 			Console.WriteLine("Error: Failed to start watch controller (null) !");
-			validated_ = false;
+			//validated_ = false;
 			started_ = false;
 		}
 
@@ -186,7 +193,7 @@ public partial class MainWindow : Gtk.Window
 			watchController_.Start(); // Start connection
 
 			// TODO: Update Watch data;
-			//watchController_.UpdateWatch();
+			watchController_.UpdateWatch();
 
 			// Update Buttons and Controls
 			ButtonSave.Sensitive = false;
@@ -199,13 +206,7 @@ public partial class MainWindow : Gtk.Window
 
 	public void EnableTalk()
 	{
-		ButtonTalk.Clicked += (sender, e) =>
-		{
-
-		};
 		ButtonTalk.ModifyFg(Gtk.StateType.Normal, ColorPicker.Green);
-
-		talking_ = true;
 
 		Console.WriteLine("Talk Enabled [ON]");
 	}
@@ -219,23 +220,8 @@ public partial class MainWindow : Gtk.Window
 		Console.WriteLine("Talk Disabled [OFF]");
 	}
 
-	protected void OnButtonTalkReleased(object sender, EventArgs e)
-	{
-		talking_ = !talking_;
-			
-		if (talking_)
-		{
-			DisableTalk();
-		}
-		else
-		{
-			EnableTalk();
-		}
-	}
-
 	protected void OnButtonDeadReleased(object sender, EventArgs e)
 	{
-		// TODO: Review this code !
 		TextBoxPlayerName.Sensitive = true;
 		ButtonValidateTeamId.Sensitive = true;
 		ButtonRangeTeamId.Sensitive = true;
@@ -248,6 +234,7 @@ public partial class MainWindow : Gtk.Window
 		validated_ = false;
 
 		watchController_.Stop();
+		watchController_ = null;
 	}
 
 	protected void OnButtonBackTeamIdReleased(object sender, EventArgs e)
